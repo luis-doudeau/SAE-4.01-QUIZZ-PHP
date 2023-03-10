@@ -1,0 +1,12 @@
+composer update
+
+php bin/console d:d:c
+php bin/console make:migration
+php bin/console d:m:m
+php bin/console d:f:l
+
+
+
+SET foreign_key_checks = 0;
+DROP ALL TABLES FROM DBdoudeau;
+SET foreign_key_checks = 1;

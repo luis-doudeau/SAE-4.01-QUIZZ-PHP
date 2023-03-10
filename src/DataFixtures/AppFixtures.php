@@ -49,12 +49,14 @@ class AppFixtures extends Fixture
         $user->setPassword("q");
         $user->setFullName("Luis DOUDEAU");
         $user->setEmail("luis.doudeau@gmail.com");
+        $user->setRoles("ROLE_USER");
 
         $userAdmin = new User();
         $userAdmin->setPseudo("admin");
         $userAdmin->setPassword("admin");
         $userAdmin->setFullName("administrateur");
         $userAdmin->setEmail("admin@gmail.com");
+        $userAdmin->setRoles("ROLE_ADMIN");
 
         // Persistance des entités
         $manager->persist($questionnaire);

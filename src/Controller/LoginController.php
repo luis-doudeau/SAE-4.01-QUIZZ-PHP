@@ -21,7 +21,7 @@ class LoginController extends AbstractController
 
         }
         else{
-            return $this->redirectToRoute('/');
+            return $this->redirectToRoute('app_index');
         }
         
         return $this->render('login/login.html.twig', [
