@@ -1,0 +1,33 @@
+{% extends 'head.html.twig' %}
+
+{% block body %}
+    <h1>Questionnaires</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for questionnaire in questionnaires %}
+                <tr>
+                    <td>{{ questionnaire.id }}</td>
+                    <td>{{ questionnaire.title }}</td>
+                    <td>
+                        <a href="{{ path('app_questionnaire_crud_controlleur_show', {'id': questionnaire.id}) }}">Show</a>
+                        <a href="{{ path('app_questionnaire_crud_controlleur_edit', {'id': questionnaire.id}) }}">Edit</a>
+                        <form action="{{ path('app_questionnaire_crud_controlleur_delete', {'id': questionnaire.id}) }}" method="post">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ questionnaire.id) }}" />
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_questionnaire_crud_controlleur_new') }}">Create new</a>
+{% endblock %}

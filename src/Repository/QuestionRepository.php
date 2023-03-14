@@ -39,6 +39,17 @@ class QuestionRepository extends ServiceEntityRepository
         }
     }
 
+    public function removeByQuestionnaireId($questionnaireId)
+    {
+        $qb = $this->createQueryBuilder('q')
+            ->delete()
+            ->where('q.questionnaire = :questionnaireId')
+            ->setParameter('questionnaireId', $questionnaireId);
+
+        return $qb->getQuery()->execute();
+    }
+
+
 //    /**
 //     * @return Question[] Returns an array of Question objects
 //     */

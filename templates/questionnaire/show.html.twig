@@ -1,0 +1,14 @@
+{% extends 'head.html.twig' %}
+
+{% block body %}
+    <h1>{{ questionnaire.nomQuestionnaire }}</h1>
+    <p>{{ questionnaire.theme }}</p>
+    <ul>
+        {% for question in questionnaire.questions %}
+            <li>{{ question.nomQuestion }}</li>
+        {% endfor %}
+    </ul>
+
+    <style>
+{% endblock %}
+
