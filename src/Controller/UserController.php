@@ -25,75 +25,54 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/start/{questionnaire}/{questionNumber}', name: 'app_questionnaire_start')]
-    public function start(Questionnaire $questionnaire, int $questionNumber = 1, Request $request): Response    {
-        $question = $questionnaire->getQuestions()[$questionNumber - 1];
 
-        // Create the form to answer the questionnaire for the current question
-        $form = $this->createForm(AnswerQuestionnaireType::class, null, ['question' => $question]);
-
-        // Check if form is submitted and valid
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Save answers and redirect user to the next page of the questionnaire
-            // ...
+        #[Route('/user/start/{questionnaire}', name: 'app_questionnaire_start')]
+        public function start(Questionnaire $questionnaire): Response
+        {
+            return $this->render('user/start.html.twig', [
+                'questionnaire' => $questionnaire,
+            ]);
         }
 
-        // Point counter for the current question
-        $pointQuestion = $question->getPointQuestion();
-
-        return $this->render('user/start.html.twig', [
-            'questionnaire' => $questionnaire,
-            'question' => $question,
-            'form' => $form->createView(),
-            'questionNumber' => $questionNumber,
-            'pointQuestion' => $pointQuestion,
-            'totalQuestions' => count($questionnaire->getQuestions()),
-        ]);
-    }
 
     /**
      * @Route("/questionnaire/{id}/answer/submit", name="app_questionnaire_answer_submit", methods={"POST"})
      */
+    #[Route('/user/score/{questionnaire}', name: 'app_questionnaire_score')]
     public function submit(Request $request, Questionnaire $questionnaire)
-    {
-        $submittedAnswers = $request->request->get('answer');
+{
+    $submittedAnswers = $request->request->get('answer');
 
-        // Check submitted answers
-        $score = 0;
-        foreach ($submittedAnswers as $questionId => $answerIds) {
-            $question = $this->getDoctrine()->getRepository(Question::class)->find($questionId);
+    if (is_array($submittedAnswers)) {
+        // Process the submitted answers as an array
+    } elseif (is_object($submittedAnswers)) {
+        // Process the submitted answers as an object
+    } else {
+        // Throw an error or handle the case when the input value is not an array or object
+    }
 
-            if (!$question) {
-                throw $this->createNotFoundException('Question not found');
-            }
+    // Check submitted answers
+    $score = 0;
+    $correctAnswersPerQuestion = [];
+    foreach ($submittedAnswers as $questionId => $answerIds) {
+        $question = $this->getDoctrine()->getRepository(Question::class)->find($questionId);
 
-            // Check answers for multiple choice questions (checkboxes)
-            if ($question->getType() === 'checkbox') {
-                $correctAnswerIds = $question->getCorrectAnswers()->map(function ($answer) {
-                    return $answer->getId();
-                })->toArray();
-
-                sort($answerIds);
-                sort($correctAnswerIds);
-
-                if ($answerIds === $correctAnswerIds) {
-                    $score += $question->getPointQuestion();
-                }
-
-            // Check answers for single choice questions (radio buttons)
-            } elseif ($question->getType() === 'radio') {
-                $correctAnswerId = $question->getCorrectAnswers()[0]->getId();
-
-                if ($answerIds == $correctAnswerId) {
-                    $score += $question->getPointQuestion();
-                }
-            }
+        if (!$question) {
+            throw $this->createNotFoundException('Question not found');
         }
 
-        return $this->render('questionnaire_answer/submit.html.twig', [
-            'questionnaire' => $questionnaire,
-            'score' => $score,
-        ]);
+        // Store correct answers for this question
+        $correctAnswers = $question->getCorrectAnswers();
+        $correctAnswersPerQuestion[$questionId] = $correctAnswers;
+
+        // Check answers for multiple choice questions (checkboxes)
+        // ...
     }
+
+    return $this->render('user/score_and_correction.html.twig', [
+        'questionnaire' => $questionnaire,
+        'score' => $score,
+        'correctAnswersPerQuestion' => $correctAnswersPerQuestion,
+    ]);
+}
 }

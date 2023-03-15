@@ -1,10 +1,46 @@
-<form method="POST" action="{{ path('app_questionnaire_start', {'questionnaire': questionnaire.id, 'questionNumber': questionNumber + 1}) }}">
-    {{ form_start(form) }}
-    {% for reponse in question.reponses %}
-        <div class="form-check">
-            {{ form_widget(form.reponses[reponse.id], {'id': 'reponse_' ~ reponse.id}) }}
-            {{ form_label(form.reponses[reponse.id], reponse.nomReponse, {'label_attr': {'for': 'reponse_' ~ reponse.id}}) }}
+{# templates/user/questionnaire_show.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{{ questionnaire.nomQuestionnaire }}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="row justify-content-center">
+<div class="col-lg-8">
+<div class="card shadow-lg border-0 rounded-lg mt-5">
+<div class="card-header"><h3 class="text-center font-weight-light my-4">{{ questionnaire.nomQuestionnaire }}</h3></div>
+<div class="card-body">
+<div class="form-group">
+<h5 class="mb-1">Theme: {{ questionnaire.theme }}</h5>
+</div>
+    <form method="post" action="{{ path('app_questionnaire_answer_submit', {'id': questionnaire.id}) }}">
+        {% for question in questionnaire.questions %}
+            <div class="question mb-4">
+                <h6 class="mb-3">{{ loop.index }}. {{ question.nomQuestion }}</h6>
+
+                {% set inputType = question.typeQuestion == 'unique' ? 'radio' : 'checkbox' %}
+
+                {% for reponse in question.reponses %}
+                    <div class="answer">
+                        <input type="{{ inputType }}"
+                                id="answer_{{ reponse.id }}"
+                                name="answer[{{ question.id }}]{% if inputType == 'checkbox' %}[]{% endif %}"
+                                value="{{ reponse.id }}">
+                        <label class="form-check-label" for="answer_{{ reponse.id }}">{{ reponse.nomReponse }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <div class="form-group mt-4 mb-0"><button type="submit" class="btn btn-primary btn-block">Submit</button></div>
+    </form>
+                </div>
+            </div>
         </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-primary">Suivant</button>
-</form>
+    </div>
+</div>
+
+{% endblock %}
