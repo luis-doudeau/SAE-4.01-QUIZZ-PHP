@@ -1,31 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-Score and Correction - {{ questionnaire.nomQuestionnaire }}
-{% endblock %}
+{% block title %}Start Questionnaire{% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                <div class="card-header"><h3 class="text-center font-weight-light my-4">Score and Correction</h3></div>
-                <div class="card-body">
-                    <h4 class="mb-4">Your score: {{ score }} / {{ questionnaire.getTotalPoints() }}</h4>
+    <div class="container">
+        <h1 class="text-center my-4">{{ questionnaire.nomQuestionnaire }}</h1>
 
-                    {% for questionId, correctAnswers in correctAnswersPerQuestion %}
-                        <div class="question mb-4">
-                            <h6 class="mb-3">{{ loop.index }}. {{ questionnaire.getQuestionById(questionId).nomQuestion }}</h6>
-                            <ul>
-                                {% for answer in correctAnswers %}
-                                    <li>{{ answer.nomReponse }}</li>
-                                {% endfor %}
-                            </ul>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                {% for question in questionnaire.questions %}
+                    <div class="card my-4">
+                        <div class="card-header">{{ question.nomQuestion }}</div>
+                        <div class="card-body">
+                            {% set userAnswer = answeredQuestions[question.id]|default(null) %}
+                            {% for reponse in question.reponses %}
+                                {% if userAnswer and reponse.id == userAnswer.id %}
+                                    <p class="mb-0 {% if reponse.estCorrect %}text-success{% else %}text-danger{% endif %}">Your answer: {{ reponse.nomReponse }}</p>
+                                {% elseif reponse.estCorrect %}
+                                    <p class="mb-0 text-success">Correct answer: {{ reponse.nomReponse }}</p>
+                                {% endif %}
+                            {% endfor %}
                         </div>
-                    {% endfor %}
-                </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

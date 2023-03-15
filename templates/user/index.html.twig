@@ -20,7 +20,7 @@ Questionnaires
 <div class="card-body">
 <h4 class="card-title">{{ questionnaire.nomQuestionnaire }}</h4>
 <p class="card-text">Theme: {{ questionnaire.theme }}</p>
-<a href="{{ path('app_questionnaire_start', {'questionnaire': questionnaire.id, 'questionNumber': 1}) }}" class="btn btn-primary">Start</a>
+<a href="{{ path('app_questionnaire_start', {'questionnaire': questionnaire.id }) }}" class="btn btn-primary">Start</a>
 </div>
 </div>
 </div>

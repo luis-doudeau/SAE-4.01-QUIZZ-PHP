@@ -47,7 +47,6 @@ class QuestionCrudController extends AbstractController
     public function show(Question $question, ReponseRepository $reponseRepository): Response
     {
         $reponses = $reponseRepository->findBy(['question' => $question]);
-
         return $this->render('question_crud/show.html.twig', [
             'question' => $question,
             'reponses' => $reponses

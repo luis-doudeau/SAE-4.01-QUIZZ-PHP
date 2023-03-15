@@ -16,17 +16,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for quest in question %}
                                 <tr>
-                                    <td>{{ quest.id }}</td>
-                                    <td>{{ quest.nomQuestion }}</td>
+                                    <td>{{ question.id }}</td>
+                                    <td>{{ question.nomQuestion }}</td>
                                     <td>
-                                        <a href="{{ path('app_question_crud_show', {'id': quest.id}) }}" class="btn btn-info">
+                                        <a href="{{ path('app_question_crud_show', {'id': question.id}) }}" class="btn btn-info">
                                             <i class="fas fa-eye"></i> Voir
                                         </a>
                                     </td>
                                 </tr>
-                            {% endfor %}
                         </tbody>
                     </table>
                 {% endif %}
