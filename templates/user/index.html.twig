@@ -1,0 +1,29 @@
+{# templates/user/questionnaire_index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Questionnaires
+{% endblock %}
+
+{% block body %}
+<h1>Questionnaires</h1>
+<div class="row">
+{% for questionnaire in questionnaires %}
+<div class="col-md-4">
+<div class="card">
+{% if questionnaire.image %}
+<img src="{{ asset('uploads/questionnaire_images/' ~ questionnaire.image) }}" class="card-img-top" alt="{{ questionnaire.nomQuestionnaire }}">
+{% else %}
+<img src="{{ asset('default_image.jpg') }}" class="card-img-top" alt="{{ questionnaire.nomQuestionnaire }}">
+{% endif %}
+<div class="card-body">
+<h4 class="card-title">{{ questionnaire.nomQuestionnaire }}</h4>
+<p class="card-text">Theme: {{ questionnaire.theme }}</p>
+<a href="{{ path('app_questionnaire_start', {'questionnaire': questionnaire.id, 'questionNumber': 1}) }}" class="btn btn-primary">Start</a>
+</div>
+</div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

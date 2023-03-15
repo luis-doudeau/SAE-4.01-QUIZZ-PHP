@@ -1,26 +1,87 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Question{% endblock %}
+{% block title %}Show Question{% endblock %}
 
 {% block body %}
-    <h1>Question</h1>
+    <h2 class="mt-4">Questions associées à ce questionnaire :</h2>
+                {% if question is empty %}
+                    <p>Aucune question associée à ce questionnaire pour le moment.</p>
+                {% else %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>NomQuestion</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for quest in question %}
+                                <tr>
+                                    <td>{{ quest.id }}</td>
+                                    <td>{{ quest.nomQuestion }}</td>
+                                    <td>
+                                        <a href="{{ path('app_question_crud_show', {'id': quest.id}) }}" class="btn btn-info">
+                                            <i class="fas fa-eye"></i> Voir
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ question.id }}</td>
-            </tr>
-            <tr>
-                <th>NomQuestion</th>
-                <td>{{ question.nomQuestion }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between">
+                <a href="{{ path('app_question_crud_edit', {'id': question.id}) }}" class="btn btn-primary">
+                    <i class="fas fa-edit"></i> Modifier
+                </a>
+                <form action="{{ path('app_question_crud_delete', {'id': question.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette questions ?');">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ question.id) }}">
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    <a href="{{ path('app_question_crud_index') }}">back to list</a>
+    <h2 class="my-4">Réponses associées</h2>
 
-    <a href="{{ path('app_question_crud_edit', {'id': question.id}) }}">edit</a>
+    {% if reponses is empty %}
+        <p>Aucune réponse associée à cette question pour le moment.</p>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom de la réponse</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reponse in reponses %}
+                        <tr>
+                            <td>{{ reponse.id }}</td>
+                            <td>{{ reponse.nomReponse }}</td>
+                            <td>
+                                <a href="{{ path('app_reponse_crud_controller_show', {'id': reponse.id}) }}" class="btn btn-info">
+                                    <i class="fas fa-eye"></i> Voir
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
 
-    {{ include('question_crud/_delete_form.html.twig') }}
+    <a href="{{ path('app_reponse_crud_controller_new', {'question_id': question.id}) }}" class="btn btn-primary mt-4">
+        <i class="fas fa-plus"></i> Ajouter une réponse
+    </a>
+
+    <hr>
+
+    <a href="{{ path('app_question_crud_index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Retour à la liste</a>
 {% endblock %}

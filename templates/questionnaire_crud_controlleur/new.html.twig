@@ -3,9 +3,15 @@
 {% block title %}New Questionnaire{% endblock %}
 
 {% block body %}
-    <h1>Create new Questionnaire</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h1 class="text-center">Create new Questionnaire</h1>
 
-    {{ include('questionnaire_crud_controlleur/_form.html.twig') }}
+                {{ include('questionnaire_crud_controlleur/_form.html.twig') }}
 
-    <a href="{{ path('app_questionnaire_crud_controlleur_index') }}">back to list</a>
+                <a href="{{ path('app_questionnaire_crud_controlleur_index') }}" class="btn btn-secondary mt-3">back to list</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

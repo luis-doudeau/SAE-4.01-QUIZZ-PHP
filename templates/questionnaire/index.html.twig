@@ -15,7 +15,7 @@
             {% for questionnaire in questionnaires %}
                 <tr>
                     <td>{{ questionnaire.id }}</td>
-                    <td>{{ questionnaire.title }}</td>
+                    <td>{{ questionnaire.nomQuestionnaire }}</td>
                     <td>
                         <a href="{{ path('app_questionnaire_crud_controlleur_show', {'id': questionnaire.id}) }}">Show</a>
                         <a href="{{ path('app_questionnaire_crud_controlleur_edit', {'id': questionnaire.id}) }}">Edit</a>

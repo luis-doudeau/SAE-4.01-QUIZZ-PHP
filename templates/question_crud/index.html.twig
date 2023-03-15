@@ -3,33 +3,45 @@
 {% block title %}Question index{% endblock %}
 
 {% block body %}
-    <h1>Question index</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h1 class="text-center">Question index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>NomQuestion</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for question in questions %}
-            <tr>
-                <td>{{ question.id }}</td>
-                <td>{{ question.nomQuestion }}</td>
-                <td>
-                    <a href="{{ path('app_question_crud_show', {'id': question.id}) }}">show</a>
-                    <a href="{{ path('app_question_crud_edit', {'id': question.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">NomQuestion</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for question in questions %}
+                                    <tr>
+                                        <td>{{ question.id }}</td>
+                                        <td>{{ question.nomQuestion }}</td>
+                                        <td>
+                                            <a href="{{ path('app_question_crud_show', {'id': question.id}) }}" class="btn btn-sm btn-info mr-2">Show</a>
+                                            <a href="{{ path('app_question_crud_edit', {'id': question.id}) }}" class="btn btn-sm btn-warning mr-2">Edit</a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="3" class="text-center">No records found.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
 
-    <a href="{{ path('app_question_crud_new') }}">Create new</a>
+                        <div class="text-center">
+                            <a href="{{ path('app_question_crud_new') }}" class="btn btn-primary">Create new</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

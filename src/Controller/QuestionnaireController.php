@@ -27,7 +27,7 @@ class QuestionnaireController extends AbstractController
         
         $questionnaire = $questionnaireManager->findOneBy(["id"=>$id]);
 
-        return $this->render('questionnaire/show.html.twig', [
+        return $this->render('app_questionnaire_crud_controlleur_show', [
             'questionnaire' => $questionnaire,
         ]);
     }

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Reponse{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-5 mb-3">Create new Reponse</h1>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    {{ form_label(form.nomReponse) }}
+                    {{ form_widget(form.nomReponse, {'attr': {'class': 'form-control mb-5'}}) }}
+                    {{ form_end(form) }}
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                    <button class="btn btn-primary mr-2">{{ button_label|default('Save') }}</button>
+                    <a href="{{ path('app_reponse_crud_controller_index') }}" class="btn btn-secondary">Back to list</a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}

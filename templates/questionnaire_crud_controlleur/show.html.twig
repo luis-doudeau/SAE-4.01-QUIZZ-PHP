@@ -1,30 +1,65 @@
 {% extends 'base.html.twig' %}
 
+
 {% block title %}Questionnaire{% endblock %}
 
 {% block body %}
-    <h1>Questionnaire</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h1 class="text-center">Questionnaire</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ questionnaire.id }}</td>
-            </tr>
-            <tr>
-                <th>NomQuestionnaire</th>
-                <td>{{ questionnaire.nomQuestionnaire }}</td>
-            </tr>
-            <tr>
-                <th>Theme</th>
-                <td>{{ questionnaire.theme }}</td>
-            </tr>
-        </tbody>
-    </table>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="bg-secondary text-white">Id</th>
+                            <td>{{ questionnaire.id }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-secondary text-white">Nom Questionnaire</th>
+                            <td>{{ questionnaire.nomQuestionnaire }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-secondary text-white">Theme</th>
+                            <td>{{ questionnaire.theme }}</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-    <a href="{{ path('app_questionnaire_crud_controlleur_index') }}">back to list</a>
+                <div class="text-center">
+                    <a href="{{ path('app_questionnaire_crud_controlleur_index') }}" class="btn btn-secondary mr-2">Back to list</a>
+                    <a href="{{ path('app_questionnaire_crud_controlleur_edit', {'id': questionnaire.id}) }}" class="btn btn-warning mr-2">Edit</a>
+                    {{ include('questionnaire_crud_controlleur/_delete_form.html.twig') }}
+                </div>
 
-    <a href="{{ path('app_questionnaire_crud_controlleur_edit', {'id': questionnaire.id}) }}">edit</a>
-
-    {{ include('questionnaire_crud_controlleur/_delete_form.html.twig') }}
+                <h2 class="mt-4">Questions associées à ce questionnaire :</h2>
+                {% if questionnaire.questions is empty %}
+                    <p>Aucune question associée à ce questionnaire pour le moment.</p>
+                {% else %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>NomQuestion</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for question in questionnaire.questions %}
+                                <tr>
+                                    <td>{{ question.id }}</td>
+                                    <td>{{ question.nomQuestion }}</td>
+                                    <td>
+                                        <a href="{{ path('app_question_crud_show', {'id': question.id}) }}" class="btn btn-info">
+                                            <i class="fas fa-eye"></i> Voir
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -21,7 +21,13 @@ class Questionnaire
     #[ORM\Column(length: 255)]
     private ?string $theme = null;
 
+    private ?string $image = null;
+
     #[ORM\OneToMany(mappedBy: 'questionnaire', targetEntity: Question::class)]
+
+    /**
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="questionnaire", cascade={"remove"})
+     */
     private Collection $questions;
 
     public function __construct()
@@ -87,4 +93,21 @@ class Questionnaire
 
         return $this;
     }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function __toString()
+{
+    return $this->getNomQuestionnaire();
+}
 }

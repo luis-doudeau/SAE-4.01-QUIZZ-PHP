@@ -14,6 +14,7 @@ class QuestionType extends AbstractType
         $builder
             ->add('nomQuestion')
             ->add('questionnaire')
+            ->add('point_question')
         ;
     }
 

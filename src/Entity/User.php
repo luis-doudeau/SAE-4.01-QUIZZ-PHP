@@ -47,7 +47,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -67,14 +66,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-    
-
         return json_decode($roles, true);
     }
 
-    public function setRoles(string $roles): self
+    public function setRoles($roles): self
     {
-        $this->roles = $roles;
+
+        $this->roles = json_encode($roles);
 
         return $this;
     }

@@ -17,11 +17,11 @@ class LoginController extends AbstractController
         $username = $request->request->get('_email');
         $password = $request->request->get('_password');
         $users = $usermanager->findOneBy(["email"=>$username, "password"=>$password]);
-        if(!$users){
-
+        if($users != null && in_array("ROLE_USER", $users->getRoles())){
+            return $this->redirectToRoute('app_user');
         }
-        else{
-            return $this->redirectToRoute('app_index');
+        else if ($users != null && in_array("ROLE_ADMIN", $users->getRoles())){
+            return $this->redirectToRoute('app_admin'); // Update this line with the correct route name for the CRUD questionnaire page
         }
         
         return $this->render('login/login.html.twig', [
@@ -30,3 +30,4 @@ class LoginController extends AbstractController
         ]);
     }
 }
+    

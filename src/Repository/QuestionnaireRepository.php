@@ -31,26 +31,37 @@ class QuestionnaireRepository extends ServiceEntityRepository
     }
 
     public function remove(Questionnaire $questionnaire, bool $flush = false): void
-    {
-        $entityManager = $this->getEntityManager();
-        
-        // Delete related questions and answers
-        $questions = $questionnaire->getQuestions();
-        foreach ($questions as $question) {
-            $answers = $question->getReponses();
-            foreach ($answers as $answer) {
-                $entityManager->remove($answer);
-            }
-            $entityManager->remove($question);
-        }
-        
-        // Finally, delete the questionnaire
-        $entityManager->remove($questionnaire);
-        
-        if ($flush) {
-            $entityManager->flush();
+{
+    $entityManager = $this->getEntityManager();
+
+    // Delete related questions and answers
+    $questions = $questionnaire->getQuestions();
+    foreach ($questions as $question) {
+
+        // Then, delete the other answers
+        $answers = $question->getReponses();
+        foreach ($answers as $answer) {
+            $entityManager->remove($answer);
         }
     }
+    $entityManager->flush(); // Flush changes after deleting answers
+
+    foreach ($questions as $question) {
+        $entityManager->remove($question);
+    }
+    $entityManager->flush(); // Flush changes after deleting questions
+
+    // Finally, delete the questionnaire
+    $entityManager->remove($questionnaire);
+
+    if ($flush) {
+        $entityManager->flush();
+    }
+}
+
+
+
+
 
 
 //    /**

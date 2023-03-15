@@ -19,9 +19,23 @@ class Reponse
     #[ORM\ManyToOne(inversedBy: 'reponses')]
     private ?Question $question = null;
 
+    private $estCorrect;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+     public function getEstCorrect(): ?bool
+    {
+        return $this->estCorrect;
+    }
+
+    public function setEstCorrect(bool $estCorrect): self
+    {
+        $this->estCorrect = $estCorrect;
+
+        return $this;
     }
 
     public function getNomReponse(): ?string

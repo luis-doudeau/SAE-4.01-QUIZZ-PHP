@@ -1,0 +1,35 @@
+{# templates/admin/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+    <h1>Admin Dashboard</h1>
+    <div class="row">
+        {% for questionnaire in questionnaires %}
+            <div class="col-md-4">
+                <div class="card">
+                    {% if questionnaire.image %}
+                        <img src="{{ asset('uploads/questionnaire_images/' ~ questionnaire.image) }}" class="card-img-top" alt="{{ questionnaire.nomQuestionnaire }}">
+                    {% else %}
+                        <img src="{{ asset('default_image.jpg') }}" class="card-img-top" alt="{{ questionnaire.nomQuestionnaire }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h4 class="card-title">{{ questionnaire.nomQuestionnaire }}</h4>
+                        <p class="card-text">Theme: {{ questionnaire.theme }}</p>
+                        <a href="{{ path('app_questionnaire_crud_controlleur_show', {'id': questionnaire.id}) }}" class="btn btn-primary">View Details</a>
+                        <a href="{{ path('app_questionnaire_crud_controlleur_edit', {'id': questionnaire.id}) }}" class="btn btn-secondary">Edit</a>
+                    </div>
+                    <div class="card-footer">
+                        {{ form_start(forms[questionnaire.id], { 'action': path('app_admin_questionnaire_upload_image', {'id': questionnaire.id}) }) }}
+                            {{ form_widget(forms[questionnaire.id].image) }}
+                            <button type="submit" class="btn btn-primary">Upload Image</button>
+                        {{ form_end(forms[questionnaire.id]) }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+

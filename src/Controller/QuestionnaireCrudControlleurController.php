@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/questionnaire/crud/controlleur')]
+#[Route('/questionnaire/crud')]
 class QuestionnaireCrudControlleurController extends AbstractController
 {
     #[Route('/', name: 'app_questionnaire_crud_controlleur_index', methods: ['GET'])]

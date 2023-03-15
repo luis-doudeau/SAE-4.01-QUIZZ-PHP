@@ -1,0 +1,10 @@
+<form method="POST" action="{{ path('app_questionnaire_start', {'questionnaire': questionnaire.id, 'questionNumber': questionNumber + 1}) }}">
+    {{ form_start(form) }}
+    {% for reponse in question.reponses %}
+        <div class="form-check">
+            {{ form_widget(form.reponses[reponse.id], {'id': 'reponse_' ~ reponse.id}) }}
+            {{ form_label(form.reponses[reponse.id], reponse.nomReponse, {'label_attr': {'for': 'reponse_' ~ reponse.id}}) }}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Suivant</button>
+</form>
